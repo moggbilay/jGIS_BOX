@@ -33,6 +33,40 @@ try:
 except Exception:
     pass
 
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from jgisbox_core import Toolbox, ConfigureClaude, ConfigureCodex, ChatTool  # noqa: F401
+# The core is shipped as a compiled binary (jgisbox_core.<abi>.pyd). A given
+# .pyd only loads on the exact Python version it was built for, which is tied to
+# the ArcGIS Pro version. If this machine's Pro version isn't covered by one of
+# the bundled binaries, the import fails - so translate that into a clear,
+# actionable message instead of a cryptic "cannot import jgisbox_core".
+try:
+    from jgisbox_core import Toolbox, ConfigureClaude, ConfigureCodex, ChatTool  # noqa: F401
+except ImportError as _err:
+    import glob as _glob
+    import sysconfig as _sysconfig
+
+    _folder = os.path.dirname(os.path.abspath(__file__))
+    _needed_suffix = _sysconfig.get_config_var("EXT_SUFFIX") or "(unknown)"
+    _pyver = "%d.%d.%d" % sys.version_info[:3]
+    _present = sorted(
+        os.path.basename(p)
+        for p in _glob.glob(os.path.join(_folder, "jgisbox_core*.pyd"))
+    )
+    raise ImportError(
+        "jGIS BOX could not load its compiled core on this machine.\n"
+        "  This ArcGIS Pro runs Python %s, which needs a binary ending in "
+        "'%s'.\n"
+        "  Binaries bundled in the toolbox folder: %s\n"
+        "  Fix: build a copy of jgisbox_core for Python %s (run build.bat on a "
+        "machine with this same ArcGIS Pro version) and drop the resulting "
+        ".pyd next to jGISBox.pyt.\n"
+        "  Original error: %s"
+        % (
+            _pyver,
+            _needed_suffix,
+            (", ".join(_present) if _present else "none found"),
+            "%d.%d" % sys.version_info[:2],
+            _err,
+        )
+    ) from _err

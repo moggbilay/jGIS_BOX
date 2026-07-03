@@ -1,146 +1,139 @@
-============================================================
- jGIS BOX  -  AI assistant for ArcGIS Pro
- Version 1.0  (free distribution)
-============================================================
+===========================================================================
+ jGIS BOX  -  AI agent toolbox for ArcGIS Pro
+===========================================================================
 
-Control the ACTIVE MAP in ArcGIS Pro with natural language.
-The agent writes and runs arcpy code in your live session
-(query, select, filter, analyze, geoprocess, symbolize, export).
+ jGIS BOX adds an AI assistant to ArcGIS Pro that can read and control your
+ ACTIVE MAP with natural language. You chat with it in plain English and it
+ writes and runs arcpy code in your live session - selecting, editing,
+ analysing, and adding result layers for you.
 
-(jGIS BOX is an independent tool. "ArcGIS" is a trademark of
- Esri; this product is not affiliated with or endorsed by Esri.)
-
-
-REQUIREMENTS
-------------
-- ArcGIS Pro 3.2 or newer (Python 3.11 / arcgispro-py3).
-- A Claude (Anthropic) or OpenAI API key.
-- Windows 64-bit.
+ Powered by your choice of provider:
+   - Claude  (Anthropic)
+   - Codex   (OpenAI)
 
 
-FILES (keep these two together in the same folder)
---------------------------------------------------
-- jGISBox.pyt                       (the toolbox)
-- jgisbox_core.cp311-win_amd64.pyd  (the compiled code)
+---------------------------------------------------------------------------
+ WHAT'S IN THIS FOLDER
+---------------------------------------------------------------------------
+
+   jGISBox.pyt        The toolbox you add to ArcGIS Pro.
+   jgisbox_core.pyd   The compiled engine (loads automatically).
+   README.txt         This file.
+
+ Keep both jGISBox.pyt and jgisbox_core.pyd together in the same folder.
 
 
-STEP 1 - UNBLOCK THE FILES (important)
---------------------------------------
-Windows blocks files that come from a zip/email/download, and
-ArcGIS will then fail to load the tool. Fix it once:
+---------------------------------------------------------------------------
+ REQUIREMENTS
+---------------------------------------------------------------------------
 
-  - Right-click the ZIP file -> Properties -> tick "Unblock" -> OK
-  - THEN extract it.
-
-(If you already extracted: right-click jgisbox_core.*.pyd ->
- Properties -> Unblock, and do the same for jGISBox.pyt.)
-
-Extract to a normal local folder, e.g.  C:\Tools\jGISBox
-(avoid OneDrive-synced folders).
+   - ArcGIS Pro 3.0 or newer (3.0 through 3.6+ are all supported).
+   - An API key from your chosen provider:
+       Claude  ->  https://console.anthropic.com/
+       OpenAI  ->  https://platform.openai.com/api-keys
 
 
-STEP 2 - ADD THE TOOLBOX
-------------------------
-1. Open ArcGIS Pro and open your project (with a map + layers).
-2. View -> Catalog Pane.
-3. In the Catalog pane: right-click "Toolboxes" -> "Add Toolbox".
-4. Browse to the folder and select jGISBox.pyt -> OK.
-5. Expand the toolbox. You will see:
-     - jGIS BOX: Configure Claude
-     - jGIS BOX: Configure Codex
-     - jGIS BOX: Chat
+---------------------------------------------------------------------------
+ INSTALL  (READ THE FIRST STEP - IT'S THE #1 CAUSE OF "WON'T LOAD")
+---------------------------------------------------------------------------
+
+ 1. UNBLOCK FIRST. If you downloaded this as a .zip, Windows marks it as
+    untrusted and will refuse to load the compiled .pyd - the toolbox then
+    "adds but won't run".
+
+       Right-click the downloaded .ZIP  ->  Properties  ->
+       tick  [x] Unblock  (bottom-right)  ->  OK
+
+    Do this BEFORE extracting. It clears the flag on every file inside.
+
+    (Already extracted? Run this once in PowerShell against the folder:
+        Get-ChildItem "C:\path\to\folder" -Recurse | Unblock-File   )
+
+ 2. Extract the whole folder to a permanent location, e.g.
+        C:\Users\<you>\Documents\ArcTools\
+
+ 3. In ArcGIS Pro:  Catalog pane  ->  Toolboxes  ->  right-click  ->
+        Add Toolbox  ->  browse to  jGISBox.pyt
+
+ 4. Expand "jGIS BOX". You'll see three tools (below).
 
 
-STEP 3 - CONFIGURE (one time)
------------------------------
-1. Double-click "jGIS BOX: Configure Claude".
-2. Paste your API key.
-3. Pick a model (default: claude-haiku-4-5 - cheapest; choose
-   claude-sonnet-4-6 or an Opus model for harder analysis).
-4. Run. It tests the key and confirms it works.
+---------------------------------------------------------------------------
+ THE TOOLS
+---------------------------------------------------------------------------
 
-Your key is stored encrypted for your Windows user in:
-   %USERPROFILE%\.arcgis_ai_agent\config.json
+   jGIS BOX: Configure Claude
+       Set your Claude (Anthropic) API key and model. Running this makes
+       Claude the active provider for Chat.
 
+   jGIS BOX: Configure Codex
+       Set your Codex (OpenAI) API key and model. Running this makes Codex
+       the active provider for Chat.
 
-STEP 4 - USE IT
----------------
-1. Make sure a map is OPEN and ACTIVE (click the map view).
-2. Double-click "jGIS BOX: Chat" -> Run.
-3. The chat window opens. Type what you want, e.g.:
-     "How many parcels are owned by RCU?"
-     "Select private commercial plots and add them to the map."
+   jGIS BOX: Chat
+       Opens the AI chat window. Type what you want in plain language and
+       the agent controls your active map. Close the chat window to finish.
 
-Notes:
-- The Chat tool shows "Running..." the whole time the chat
-  window is open. That is normal - CLOSE the chat window to
-  finish the tool.
-- Click "Log" in the chat window to watch live activity.
-- "Auto-run steps" (below the message box): leave it on to let
-  the agent work; turn it off to approve each step.
+ First time: run Configure Claude OR Configure Codex once to set your key,
+ then run Chat.
 
 
-DATA & PRIVACY (what is sent to the AI)
----------------------------------------
-This tool sends requests over HTTPS to the AI provider you
-configured (Anthropic Claude or OpenAI). Nothing else leaves
-your machine; your API key is stored locally (encrypted).
+---------------------------------------------------------------------------
+ SESSION RULES (standing instructions for every Chat)
+---------------------------------------------------------------------------
 
-It does NOT upload your datasets, feature classes, geometry,
-or files wholesale. On each turn it sends:
-  - your typed messages;
-  - a snapshot of the map: project/geodatabase paths, layer
-    names, field names + aliases, data source paths, definition
-    queries, and the spatial reference;
-  - the code the agent writes; and
-  - the PRINTED OUTPUT of running that code.
+ In Configure Claude / Configure Codex there is a "Session rules" field.
+ Whatever you put there is sent to the AI at the start of EVERY Chat, so you
+ don't have to paste your conventions each time. Examples:
 
-That last point matters: whatever the agent prints (attribute
-values, counts, sample rows) IS sent to the provider. So real
-data content can leave your machine during analysis - only the
-parts that get printed, not the whole dataset.
+     - Prefix all AI-created outputs with AI_
+     - Always require an explicit workspace path before creating data
+     - Never delete features without asking me first
 
-Provider handling: Anthropic and OpenAI state that API data is
-not used to train their models by default, with limited
-retention for abuse monitoring. Confirm this against your
-organization's data policy before using sensitive or restricted
-data. If data must not leave your environment, do not use this
-tool on that data.
+ Notes:
+   - Rules ADD TO the built-in safety rules; they cannot switch safety off.
+   - They apply to whichever provider (Claude or Codex) is active - the field
+     is shared.
+   - Changes take effect on the NEXT Chat you open (rules are read once when a
+     Chat starts). The Chat window shows "Session rules active" when they are on.
+   - The tool's text box is a single line. For long, multi-line rules, edit the
+     "session_rules" value directly in:
+         %USERPROFILE%\.arcgis_ai_agent\config.json
+   - Rules are capped at ~8000 characters (they are re-sent every message, so
+     keep them concise to control token cost).
 
 
-TROUBLESHOOTING
----------------
-- Toolbox does not appear after Add Toolbox:
-    In the Catalog pane, right-click the folder -> Refresh.
+---------------------------------------------------------------------------
+ IMPORTANT - SAFETY
+---------------------------------------------------------------------------
 
-- "DLL load failed" / tool will not load:
-    The files were not unblocked (see STEP 1), or your ArcGIS
-    Pro is older than 3.2 (different Python version). For an
-    older Pro, the .pyd must be rebuilt on that machine.
+   - Chat runs AI-generated arcpy code against your LIVE map. The agent can
+     read, edit, and DELETE data. Keep backups of important data and verify
+     critical results - the AI can make mistakes.
 
-- The tool/file disappears, or is quarantined:
-    Your antivirus/endpoint security removed it. Ask IT to add
-    a folder exclusion for where you extracted the tool.
+   - While a step runs, ArcGIS Pro FREEZES ("Not Responding") until that
+     step finishes. Heavy geoprocessing on large data may take minutes.
+     This is normal, not a crash.
 
-- No API key error:
-    Run "jGIS BOX: Configure Claude" first and enter your key.
+   - For risky or large tasks, turn OFF "Auto-run steps" in the chat window
+     so you approve each step. Ask for a count or a small subset before
+     running on a whole large dataset.
 
 
-LICENSE (free distribution)
----------------------------
-jGIS BOX is provided FREE of charge. You may use and share it
-as-is, at no cost.
+---------------------------------------------------------------------------
+ TROUBLESHOOTING
+---------------------------------------------------------------------------
 
-IT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED. The author is NOT liable for any data loss, damage, or
-other consequences arising from its use. You use it at your own
-risk - keep backups and verify results.
+ "Tool won't open / can't import jgisbox_core / cannot load"
+   -> 99% of the time this is the download block. Go back to INSTALL step 1
+      and Unblock, then re-add the toolbox. Also make sure jgisbox_core.pyd
+      is in the SAME folder as jGISBox.pyt (don't run from inside the zip).
 
-You are responsible for:
-  - your own API key and any usage costs charged by the AI
-    provider (Anthropic or OpenAI);
-  - complying with the AI provider's usage policies and with
-    your organization's data-handling rules.
+ "This ArcGIS Pro runs Python X ... needs a binary ending in ..."
+   -> You have an unusually old ArcGIS Pro (before 3.0 / Python 3.9).
+      Please update ArcGIS Pro.
 
-Trademarks belong to their owners. "ArcGIS" is a trademark of
-Esri; this product is not affiliated with or endorsed by Esri.
+
+===========================================================================
+ One file works on every ArcGIS Pro 3.x - no per-version installs.
+===========================================================================

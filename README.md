@@ -14,17 +14,22 @@ dependencies, bring‑your‑own‑API‑key.
 ---
 
 ## Requirements
-- ArcGIS Pro **3.2 or newer** (Python 3.11 / arcgispro-py3)
+- ArcGIS Pro **3.0 or newer** (Python 3.9–3.13 / arcgispro-py3)
 - Windows 64‑bit
 - A Claude (Anthropic) or OpenAI **API key**
 
 ## Download & install
-1. Download the files in **[`appdist/`](appdist)**:
+1. Download **all** files in **[`appdist/`](appdist)** into one folder:
    - `jGISBox.pyt` (the toolbox)
-   - `jgisbox_core.cp311-win_amd64.pyd` (compiled code — keep it next to the `.pyt`)
+   - `jgisbox_core.pyd` (compiled code for ArcGIS Pro 3.3+)
+   - `jgisbox_core.cp39-win_amd64.pyd` (compiled code for ArcGIS Pro 3.0–3.2)
    - `README.txt`
-2. **Unblock** them (Windows blocks downloaded files): right‑click the ZIP →
-   **Properties → Unblock** before extracting (or unblock each file after).
+
+   Keep them together — Python automatically loads the right binary for your
+   ArcGIS Pro version.
+2. **Unblock** them (Windows blocks downloaded files): if you downloaded a ZIP,
+   right‑click it → **Properties → Unblock** before extracting; otherwise unblock
+   each file after downloading.
 3. In ArcGIS Pro: **Catalog Pane → Toolboxes → Add Toolbox →** select `jGISBox.pyt`.
 
 ## Configure (once)
@@ -37,6 +42,11 @@ analysis). Your key is stored **encrypted** for your Windows user in
 Open a map, run **jGIS BOX: Chat**, and type what you want, e.g.
 > "How many parcels are owned by RCU?"
 > "Select private commercial plots and add them to the map."
+
+**Session rules (optional):** in Configure you can set standing instructions that
+load into **every** Chat automatically — e.g. "prefix all AI‑created outputs with
+`AI_`" or "require an explicit workspace path before creating data" — so you don't
+have to repeat them each session.
 
 Full instructions are in [`appdist/README.txt`](appdist/README.txt).
 
