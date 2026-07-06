@@ -1,6 +1,6 @@
 # jGIS BOX
 
-**Version 1.0 — free distribution**
+**Free distribution**
 
 jGIS BOX is an ArcGIS Pro toolbox that links your own **Claude (Anthropic)** or
 **OpenAI** account to your live map. It has **no AI of its own** — it sends your
