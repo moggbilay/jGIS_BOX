@@ -1,11 +1,6 @@
 import os
 import sys
 
-# Keep the toolbox folder clean. ArcGIS Pro and Python drop two kinds of files
-# next to this .pyt: bytecode caches (__pycache__) and metadata sidecars
-# (*.pyt.xml). We redirect the bytecode cache to the app-data dir and, on every
-# load, move any stray __pycache__ / *.pyt.xml into ~/.arcgis_ai_agent so they
-# don't accumulate beside the toolbox. All wrapped so it can never block loading.
 try:
     _APP_DIR = os.path.join(os.path.expanduser("~"), ".arcgis_ai_agent")
     _META_DIR = os.path.join(_APP_DIR, "toolbox_meta")
@@ -35,13 +30,8 @@ except Exception:
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# The core is shipped as a compiled binary (jgisbox_core.<abi>.pyd). A given
-# .pyd only loads on the exact Python version it was built for, which is tied to
-# the ArcGIS Pro version. If this machine's Pro version isn't covered by one of
-# the bundled binaries, the import fails - so translate that into a clear,
-# actionable message instead of a cryptic "cannot import jgisbox_core".
 try:
-    from jgisbox_core import Toolbox, ConfigureClaude, ConfigureCodex, ChatTool  # noqa: F401
+    from jgisbox_core import Toolbox, ConfigureClaude, ConfigureCodex, ChatTool
 except ImportError as _err:
     import glob as _glob
     import sysconfig as _sysconfig

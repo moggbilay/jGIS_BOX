@@ -19,7 +19,7 @@ dependencies, bring‑your‑own‑API‑key.
 - A Claude (Anthropic) or OpenAI **API key**
 
 ## Download & install
-1. Download **all** files in **[`appdist/`](appdist)** into one folder:
+1. Download **all** files in **[`jGIS_BOX_ArcGIS_dist/`](jGIS_BOX_ArcGIS_dist)** into one folder:
    - `jGISBox.pyt` (the toolbox)
    - `jgisbox_core.pyd` (compiled code for ArcGIS Pro 3.3+)
    - `jgisbox_core.cp39-win_amd64.pyd` (compiled code for ArcGIS Pro 3.0–3.2)
@@ -48,7 +48,7 @@ load into **every** Chat automatically — e.g. "prefix all AI‑created outputs
 `AI_`" or "require an explicit workspace path before creating data" — so you don't
 have to repeat them each session.
 
-Full instructions are in [`appdist/README.txt`](appdist/README.txt).
+Full instructions are in [`jGIS_BOX_ArcGIS_dist/README.txt`](jGIS_BOX_ArcGIS_dist/README.txt).
 
 ---
 
