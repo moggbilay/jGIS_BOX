@@ -52,6 +52,13 @@ Full instructions are in [`jGIS_BOX_ArcGIS_dist/README.txt`](jGIS_BOX_ArcGIS_dis
 
 ---
 
+## QGIS plugin — coming soon
+A **QGIS** version of jGIS BOX is on the way — the same natural‑language control
+for your live QGIS project, bring‑your‑own‑key, no servers. It will ship as
+`jGIS_BOX_QGIS_dist`. Stay tuned.
+
+---
+
 ## Data & privacy
 Requests go over HTTPS to the AI provider you configured. It does **not** upload
 your datasets wholesale — but whatever the agent **prints** during analysis
