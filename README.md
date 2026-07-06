@@ -40,8 +40,8 @@ analysis). Your key is stored **encrypted** for your Windows user in
 
 ## Use
 Open a map, run **jGIS BOX: Chat**, and type what you want, e.g.
-> "How many parcels are owned by RCU?"
-> "Select private commercial plots and add them to the map."
+> "How many features are in the active layer?"
+> "Select features that meet a condition and add them to the map as a new layer."
 
 **Session rules (optional):** in Configure you can set standing instructions that
 load into **every** Chat automatically — e.g. "prefix all AI‑created outputs with
