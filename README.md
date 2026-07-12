@@ -1,8 +1,8 @@
 # jGIS BOX
 
-**Free distribution**
+**Free distribution — ArcGIS Pro v1.2 · QGIS v1.0**
 
-jGIS BOX is an ArcGIS Pro toolbox that links your own **Claude (Anthropic)** or
+jGIS BOX is an ArcGIS Pro toolbox (and now a **QGIS plugin**) that links your own **Claude (Anthropic)** or
 **OpenAI** account to your live map. It has **no AI of its own** — it sends your
 plain‑language request plus the map's context to the AI, then runs the returned
 `arcpy` code on your **active map** and shows the results, analysis, and new
@@ -52,10 +52,22 @@ Full instructions are in [`jGIS_BOX_ArcGIS_dist/README.txt`](jGIS_BOX_ArcGIS_dis
 
 ---
 
-## QGIS plugin — coming soon
-A **QGIS** version of jGIS BOX is on the way — the same natural‑language control
-for your live QGIS project, bring‑your‑own‑key, no servers. It will ship as
-`jGIS_BOX_QGIS_dist`. Stay tuned.
+## QGIS plugin (v1.0)
+Same natural‑language control for your live **QGIS** project — bring‑your‑own‑key,
+no servers. Works on **QGIS 3.x (Qt5) and 4.x (Qt6)**.
+
+**Install** — from **[`jGIS_BOX_QGIS_dist/`](jGIS_BOX_QGIS_dist)** pick the zip for your QGIS:
+- QGIS **3.x** → `jGIS_BOX_QGIS_3x.zip`
+- QGIS **4.x** → `jGIS_BOX_QGIS_4x.zip`
+
+Then in QGIS: **Plugins → Manage and Install Plugins → Install from ZIP →** select
+that zip → Install, and tick **jGIS BOX** under *Installed*.
+
+> Updating the plugin? **Close QGIS first**, then install the new zip — a compiled
+> plugin can't be replaced while QGIS has it loaded.
+
+Configure and use it exactly like the ArcGIS version: run **jGIS BOX: Configure**,
+paste your key, pick a model, then open the **jGIS BOX** chat dock and type what you want.
 
 ---
 
